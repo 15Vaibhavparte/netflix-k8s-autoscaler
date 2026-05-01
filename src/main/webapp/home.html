@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Netflix Home</title>
+    <style>
+        body { background-color: #111; color: white; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; }
+        .navbar { display: flex; justify-content: space-between; padding: 20px 4%; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent); position: fixed; width: 100%; z-index: 10; }
+        .logo { color: #E50914; font-size: 30px; font-weight: bold; }
+        /* Updated with a working, static Unsplash image URL */
+        .hero {height: 80vh;background: linear-gradient(rgba(0,0,0,0.4), #111), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600&auto=format&fit=crop') no-repeat center center/cover; display: flex; align-items: center;padding-left: 4%; }
+        .hero-content h1 { font-size: 3rem; margin-bottom: 20px; }
+        .row { padding: 20px 4%; }
+        .thumbnails { display: flex; gap: 10px; overflow-x: scroll; }
+        .thumbnails img { width: 200px; height: 120px; border-radius: 4px; transition: transform 0.3s; }
+        .thumbnails img:hover { transform: scale(1.1); }
+        .btn { background: #E50914; color: white; border: none; padding: 10px 25px; font-size: 18px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">NETFLIX</div>
+        <div>Account</div>
+    </div>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Featured Movie Title</h1>
+            <p>Experience the latest cinematic masterpiece only on Netflix.</p>
+            <button class="btn">Play</button>
+            <button class="btn" style="background: rgba(109, 109, 110, 0.7);">More Info</button>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Top Picks for You</h2>
+        <div class="thumbnails">
+            <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=200&h=120&auto=format&fit=crop" alt="Movie 1">
+            <img src="https://images.unsplash.com/photo-1574267432553-4b4628081c31?q=80&w=200&h=120&auto=format&fit=crop" alt="Movie 2">
+            <img src="https://images.unsplash.com/photo-1616530940355-351fabd9524b?q=80&w=200&h=120&auto=format&fit=crop" alt="Movie 3">
+            <img src="https://images.unsplash.com/photo-1535016120720-40c746a65b32?q=80&w=200&h=120&auto=format&fit=crop" alt="Movie 4">
+        </div>
+    </div>
+</body>
+</html>
