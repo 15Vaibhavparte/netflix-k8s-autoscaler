@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflix-deployment
+  labels:
+    app: netflix
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: netflix
+  template:
+    metadata:
+      labels:
+        app: netflix
+    spec:
+      containers:
+      - name: netflix-frontend
+        image: parte15/netflix:v2
+        ports:
+        - containerPort: 8080
+        resources:           # <-- ADD THIS ENTIRE BLOCK
+          requests:
+            cpu: "100m"      # 100 millicores (10% of 1 CPU core)
+          limits:
+            cpu: "250m"      # 250 millicores (25% of 1 CPU core)
