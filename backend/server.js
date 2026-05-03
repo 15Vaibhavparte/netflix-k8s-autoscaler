@@ -9,9 +9,9 @@ app.use(bodyParser.json());
 
 // MySQL Connection Configuration
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'mysql-service',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'netflix_pass',
+    password: process.env.DB_PASSWORD || 'netflix_password123',
     database: process.env.DB_NAME || 'netflix_db'
 });
 

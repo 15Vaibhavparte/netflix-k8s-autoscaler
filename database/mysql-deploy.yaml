@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1  # Databases usually only have 1 replica unless clustered
+  selector:
+    matchLabels:
+      app: netflix-db
+  template:
+    metadata:
+      labels:
+        app: netflix-db
+    spec:
+      nodeSelector:
+        role: worker  # Keeping it on your worker node!
+      containers:
+      - name: mysql
+        image: mysql:5.7  # 5.7 is highly compatible with Node.js drivers
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - secretRef:
+            name: mysql-secret
