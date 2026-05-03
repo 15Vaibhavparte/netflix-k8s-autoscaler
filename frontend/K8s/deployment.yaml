@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: netflix-frontend
-        image: parte15/netflix:v2
+        image: parte15/netflix:v1
         ports:
         - containerPort: 8080
         resources:           # <-- ADD THIS ENTIRE BLOCK
