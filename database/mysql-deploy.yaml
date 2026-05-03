@@ -22,3 +22,12 @@ spec:
         envFrom:
         - secretRef:
             name: mysql-secret
+        volumeMounts:
+        - name: init-script-volume
+          # This is the magic path MySQL looks at when it boots!
+          mountPath: /docker-entrypoint-initdb.d/init.sql
+          subPath: init.sql
+      volumes:
+      - name: init-script-volume
+        configMap:
+          name: mysql-init-script
