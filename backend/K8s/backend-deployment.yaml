@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflix-backend-deployment
+  labels:
+    app: netflix-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: netflix-backend
+  template:
+    metadata:
+      labels:
+        app: netflix-backend
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: netflix-backend
+        image: parte15/netflix-backend:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:           # <-- ADD THIS ENTIRE BLOCK
+          requests:
+            cpu: "100m"      # 100 millicores (10% of 1 CPU core)
+          limits:
+            cpu: "250m"      # 250 millicores (25% of 1 CPU core)
