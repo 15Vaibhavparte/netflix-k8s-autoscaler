@@ -14,6 +14,8 @@ spec:
       labels:
         app: netflix
     spec:
+      nodeSelector:
+        role: worker
       containers:
       - name: netflix-frontend
         image: parte15/netflix:v1
