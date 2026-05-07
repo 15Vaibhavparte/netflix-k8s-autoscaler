@@ -158,3 +158,127 @@ graph TB
     Metrics --> HPA_Controller
     HPA_Controller --> FrontPods
     HPA_Controller --> BackPods
+```
+## ⚡ 4. Setup, Code & Implementation
+
+### 🔧 Prerequisites
+
+- Kubernetes Cluster (**Master + Worker nodes**)  
+- `kubectl` configured on Master node  
+- AWS Security Group:
+  - Allow **TCP 30007 & 30008** from `0.0.0.0/0`
+
+---
+
+### 🏷️ Node Labeling
+
+```bash
+kubectl label nodes <worker-node-name> role=worker
+```
+### 📂 Directory Structure
+```
+netflix-k8s-autoscaler/
+├── frontend/
+│   └── k8s/
+│       ├── frontend-deployment.yaml
+│       ├── frontend-service.yaml
+│       └── frontend-hpa.yaml
+├── backend/
+│   └── k8s/
+│       ├── backend-deployment.yaml
+│       ├── backend-service.yaml
+│       └── backend-hpa.yaml
+└── database/
+    └── k8s/
+        ├── mysql-secret.yaml
+        ├── mysql-configmap.yaml
+        ├── mysql-deploy.yaml
+        └── mysql-service.yaml
+```
+### 📜 Core Implementation Files
+#### 1️⃣ Database ConfigMap (Zero-Touch Provisioning)
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-script
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS netflix_db;
+    USE netflix_db;
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL
+    );
+    INSERT INTO users (email, password) VALUES ('admin@netflix.com', 'password123');
+```
+#### 2️⃣ Backend Deployment (Node Selector + Resource Limits)
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: netflix-backend
+  template:
+    metadata:
+      labels:
+        app: netflix-backend
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: node-backend
+        image: parte15/netflix-backend:v2
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "250m"
+```
+#### 3️⃣ Horizontal Pod Autoscaler (HPA)
+```
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-deployment
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+```
+### 🚀 Quick Spin-Up
+- Run these commands from the Master Node:
+```
+# 1. Deploy Database
+kubectl apply -f database/k8s/
+
+# 2. Deploy Backend
+kubectl apply -f backend/k8s/
+
+# 3. Deploy Frontend
+kubectl apply -f frontend/k8s/
+
+# 4. Verify Pods
+kubectl get pods -o wide
+
+# 5. Watch Autoscaler
+kubectl get hpa -w
+```
+### 🎯 Final Note
