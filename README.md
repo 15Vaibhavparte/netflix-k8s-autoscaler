@@ -1,4 +1,4 @@
-﻿# 📈 Monolith to Microservices: Kubernetes Auto-Scaling Architecture
+﻿# Monolith to Microservices: Kubernetes Auto-Scaling Architecture
 
 ---
 
@@ -6,7 +6,8 @@
 1. [🎯 Project Description: The Auto-Scaling Laboratory](#-1-project-description-the-auto-scaling-laboratory)  
 2. [🌍 The Industry Problem & Our Solution](#-2-the-industry-problem--our-solution)  
 3. [🏗️ Architecture & Autoscaling Flow](#️-3-architecture--autoscaling-flow)  
-4. [⚡ Setup, Code & Implementation](#-4-setup-code--implementation)  
+4. [⚡ Setup, Code & Implementation](#-4-setup-code--implementation)
+5. [📸 Project Showcase & Visual Proof](#-5-project-showcase--visual-proof)
 
 ---
 
@@ -280,6 +281,31 @@ kubectl get pods -o wide
 # 5. Watch Autoscaler
 kubectl get hpa -w
 ```
+---
+## 📸 5. Project Showcase & Visual Proof
+- 🎥 Live Auto-Scaling Demonstration
+- 
+https://github.com/user-attachments/assets/f7e3148d-0201-47cd-81fe-0d5593221f31
+
+- A live terminal view demonstrating the Horizontal Pod Autoscaler (HPA) in action. It captures the exact moment a traffic spike hits the Node.js backend, showing   the CPU target jumping to 107% and the cluster dynamically scaling the replica count from 2 up to 10 to handle the load.
+  
+<img width="1913" height="1066" alt="Screenshot 2026-05-04 030038" src="https://github.com/user-attachments/assets/d47ca5da-0d80-404f-8dd8-1e31355dd306" />
+
+---
+- Terminal execution of kubectl get pods -o wide. This serves as architectural proof that the nodeSelector rules worked perfectly, ensuring all microservices        (Frontend, Backend, and Database) are strictly scheduled on the AWS Worker Node, keeping the Master Control Plane completely isolated.
+
+<img width="1919" height="1075" alt="Screenshot 2026-05-04 030153" src="https://github.com/user-attachments/assets/c366a91f-e38d-4842-bd1b-75e7fd982084" />
+
+--- 
+- The fully functional Netflix clone rendered live in the browser. Crucially, the URL bar displays the AWS EC2 Public IP address and NodePort                        (3.111.31.133:30007), proving the application is successfully deployed and accessible over the public cloud infrastructure.
+
+<img width="1919" height="1079" alt="Screenshot 2026-05-04 030252" src="https://github.com/user-attachments/assets/5a785188-a537-435f-a510-19b7f0672133" />
+
+ ---  
+- The AWS EC2 management dashboard showing the underlying hardware infrastructure. It highlights the successful provisioning and active running state of both the Kubernetes Master and Worker t2.medium instances.
+
+<img width="1919" height="1079" alt="Screenshot 2026-05-04 030237" src="https://github.com/user-attachments/assets/7429f52c-ed9e-415d-87c2-f5f48eb0ff49" />
+
 ---
 ### 🎯 Final Note
 - Real-world Kubernetes architecture
