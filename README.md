@@ -54,13 +54,6 @@ A Netflix mock application is used to simulate a **real-world high-traffic platf
 
 ---
 
-### 🎯 Target Audience
-- Cloud Engineers  
-- Site Reliability Engineers (SREs)  
-- DevOps Practitioners  
-
----
-
 ## 🌍 2. The Industry Problem & Our Solution
 
 ### ❌ The Pain Point: The "Over-Provisioning" Trap
@@ -123,7 +116,7 @@ graph TB
             HPA_Controller[HPA Controller<br/>Target: 50% CPU]
         end
 
-        subgraph "💪 K8s Worker Node (Label: role=worker)"
+        subgraph " K8s Worker Node "
             Ingress((🌐 Public Internet))
             
             subgraph "Frontend Microservice"
@@ -175,6 +168,8 @@ graph TB
 ```bash
 kubectl label nodes <worker-node-name> role=worker
 ```
+---
+
 ### 📂 Directory Structure
 ```
 netflix-k8s-autoscaler/
@@ -196,6 +191,7 @@ netflix-k8s-autoscaler/
         └── mysql-service.yaml
 ```
 ### 📜 Core Implementation Files
+---
 #### 1️⃣ Database ConfigMap (Zero-Touch Provisioning)
 ```
 apiVersion: v1
@@ -213,6 +209,7 @@ data:
     );
     INSERT INTO users (email, password) VALUES ('admin@netflix.com', 'password123');
 ```
+---
 #### 2️⃣ Backend Deployment (Node Selector + Resource Limits)
 ```
 apiVersion: apps/v1
@@ -242,6 +239,7 @@ spec:
           limits:
             cpu: "250m"
 ```
+---
 #### 3️⃣ Horizontal Pod Autoscaler (HPA)
 ```
 apiVersion: autoscaling/v2
@@ -263,6 +261,7 @@ spec:
         type: Utilization
         averageUtilization: 50
 ```
+---
 ### 🚀 Quick Spin-Up
 - Run these commands from the Master Node:
 ```
@@ -281,6 +280,7 @@ kubectl get pods -o wide
 # 5. Watch Autoscaler
 kubectl get hpa -w
 ```
+---
 ### 🎯 Final Note
 - Real-world Kubernetes architecture
 - Dynamic scaling under load
